@@ -80,9 +80,9 @@ endfunction
 " 'To: stefano zacchiroli, bram'
 " -> 'To: Stefano Zacchiroli <zack@bononia.it>, Bram Moolenaar <Bram@moolenaar.net>
 function! LbdbExpandRcptLine(recpt_line)
-  if a:recpt_line =~ '^\w\+:'  " line is the *beginning* of a RFC822 field
-    let raw = substitute(a:recpt_line, '^\w\+:\s*', '', '')
-    let recpt_kind = substitute(a:recpt_line, '^\(\w\+\):\s*.*$', '\1', '')
+  if a:recpt_line =~ '^[[:alnum:]-]\+:'  " RFC822 field-name
+    let raw = substitute(a:recpt_line, '^[[:alnum:]-]\+:\s*', '', '')
+    let recpt_kind = substitute(a:recpt_line, '^\([[:alnum:]-]\+\):\s*.*$', '\1', '')
     let exp_line = recpt_kind . ': ' . LbdbExpandContacts(raw)
   elseif a:recpt_line =~ '^\s\+'  " line is the *continuation* of a RFC822 field
     let raw = substitute(a:recpt_line, '^\s\+', '', '')
